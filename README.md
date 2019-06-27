@@ -50,7 +50,7 @@ Open a browser at `http://127.0.0.1:5000` and select `MNIST_TF_Estimator` to see
 
 Click one of the runs to show the artifacts that have been recorded:
 
-![Tracker2](images/tracker1.png?raw=true "Tracker2")
+![Tracker2](images/tracker2.png?raw=true "Tracker2")
 
 There are the usual files created by the TensorFlow Estimator:
 
