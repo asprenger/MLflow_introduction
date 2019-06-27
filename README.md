@@ -1,34 +1,35 @@
 # README
 
-[MLflow](https://mlflow.org/) is an open source library to manage machine learning lifecycles. 
+[MLflow](https://MLflow.org/) is an open source library to manage machine learning lifecycles. 
 
-It offers three components:
+It has currently three components:
 
-* MLflow Tracking: Track all aspects of ML experiments like code, data, configuration, and results
-* MLflow Models: Packaging format for models for integration with different deployment tools
-* MLflow Projects: Packaging format for reproducible execution of code
+* MLflow Tracking: Tracks different aspects of ML experiments like code, data, configuration, and results
+* MLflow Models: A packaging format for models that integrates with different deployment tools
+* MLflow Projects: A packaging format for reproducible execution of code
 
 
 ## Setup
 
-MLFlow is a Python library and can be installed with `pip`.
+MLflow is a Python library and can be installed with `pip`.
 
 To install the dependencies for this repository:
 
     pip install -r requirements.txt
 
 
-## MLFlow Tracking
+## MLflow Tracking
 
-[MLflow Tracking](https://www.mlflow.org/docs/latest/tracking.html) is an API for logging parameters, code versions, metrics, and output files when running
-ML experiments. It provides a UI for visualizing the results. 
+[MLflow Tracking](https://www.MLflow.org/docs/latest/tracking.html) is an API for logging parameters, code versions, metrics, and output files from
+machine learning experiments. It also provides a user interface for visualizing the results. 
 
 Start the MLflow tracking server:
 
-    mlflow server --default-artifact-root /tmp/artifacts --backend-store-uri /tmp/mlruns
+    MLflow server --backend-store-uri /tmp/mlruns --default-artifact-root /tmp/artifacts
 
-`--backend-store-uri` defines the location where experiment data and metrics are stored. This can be a local filesystem or a database like SQLite.
-`--default-artifact-root` defines the location where artifacts like model files are stored. This can be a local filesystem or a remote filesystem like S3.
+`--backend-store-uri` defines the location where experiment data and metrics are stored. This can be a local filesystem or a SQLAlchemy compatible 
+database like SQLite. `--default-artifact-root` defines the location where artifacts like model files are stored. This can be a local filesystem or 
+a remote filesystem like S3.
 
 By default he tracking server binds to port 5000 on localhost.
 
@@ -38,7 +39,7 @@ Train a set of models with different parameters:
 	python train_estimator.py --learning-rate 0.001 --tracking-url http://127.0.0.1:5000
 	python train_estimator.py --learning-rate 0.0001 --tracking-url http://127.0.0.1:5000
 
-An experiment sends parameters, metrics and training results to the tracking service. The last checkpoint is exported as a MLFlow Model and pushed 
+An experiment sends parameters, metrics and training results to the tracking service. The last checkpoint is exported as a MLflow Model and pushed 
 to the tracking service.
 
 Open a browser at `http://127.0.0.1:5000` and select `MNIST_TF_Estimator` to see the 3 runs of the experiment:
@@ -55,16 +56,16 @@ There are the usual files created by the TensorFlow Estimator:
  * GraphDef definition
  * Event files for training and evaluation
 
-In folder `exported_model` is also the MLFLow Model that has been created by `train_estimator.py`.
+In folder `exported_model` is also the MLflow Model that has been created by `train_estimator.py`.
 
 
-## MLFlow Model
+## MLflow Model
 
-[MLflow Model](https://www.mlflow.org/docs/latest/models.html) is a standardized packaging format for machine learning models.
+[MLflow Model](https://www.MLflow.org/docs/latest/models.html) is a standardized packaging format for machine learning models.
 
 Each MLflow Model is a directory containing arbitrary files, together with an MLmodel file in the root of the directory that stores meta-data.
 
-A MLFlow Model can define multiple *flavors* that the model can be used with. A flavour acts as an adapter between the model and a specific framework or tool.
+A MLflow Model can define multiple *flavors* that the model can be used with. A flavour acts as an adapter between the model and a specific framework or tool.
 Built-in flavors are:
 
  * Python function
@@ -74,13 +75,13 @@ Built-in flavors are:
  * Spark
  * PyTorch
 
-The script `inference_mlflow_model.py` shows an example how to use a MLflow model in TensorFlow.
+The script `inference_MLflow_model.py` shows an example how to use a MLflow model in TensorFlow.
 
 First we need to download the MLflow model from the Tracking Service:
 
-    MLFLOW_TRACKING_URI=http://127.0.0.1:5000 mlflow artifacts download --run-id 2eddaed00e264f73b5bd94b057054d7c --artifact-path exported_model
+    MLflow_TRACKING_URI=http://127.0.0.1:5000 MLflow artifacts download --run-id 2eddaed00e264f73b5bd94b057054d7c --artifact-path exported_model
 
-The `mlflow artifacts download ` command copies the model to a local directory and returns the path, e.g.:
+The `MLflow artifacts download ` command copies the model to a local directory and returns the path, e.g.:
 
     /tmp/artifacts/1/c69616b474964e7fa9f6f6919965d7e5/artifacts/exported_model
 
@@ -88,7 +89,7 @@ The `run-id` is a unique ID and must be looked up in the Tracking Server UI.
 
 Now we can use the model to make predictions:
 
-    python inference_mlflow_model.py file:/tmp/artifacts/1/2eddaed00e264f73b5bd94b057054d7c/artifacts/exported_model
+    python inference_MLflow_model.py file:/tmp/artifacts/1/2eddaed00e264f73b5bd94b057054d7c/artifacts/exported_model
 
 
 ## Using Tensorflow Serving
@@ -98,20 +99,20 @@ A popular option to deploy TensorFlow models is to use [TensorFlow Serving](http
 MLflow Model does not support Tensorflow Serving currently.
 
 As a workaround, we can download the SavedModel from the Tracking Service and deploy it into Tensorflow Serving. 
-This works because the MLFlow model is just the SavedModel with some meta-data.
+This works because the MLflow model is just the SavedModel with some meta-data.
 
-We use the same `mlflow artifacts download` command again but this time specify artifact path `exported_model/tfmodel`:
+We use the same `MLflow artifacts download` command again but this time specify artifact path `exported_model/tfmodel`:
 
-    MLFLOW_TRACKING_URI=http://127.0.0.1:5000 mlflow artifacts download --run-id 2eddaed00e264f73b5bd94b057054d7c --artifact-path exported_model/tfmodel
+    MLflow_TRACKING_URI=http://127.0.0.1:5000 MLflow artifacts download --run-id 2eddaed00e264f73b5bd94b057054d7c --artifact-path exported_model/tfmodel
 
 This downloads the SavedModel to a local directory.
 
 Check out the [Tensorflow Serving](https://www.tensorflow.org/tfx/guide/serving) documentation how to deploy the SavedModel with TensorFlow Serving.
 
 
-## MLFlow Project
+## MLflow Project
 
-[MLflow Project](https://www.mlflow.org/docs/latest/projects.html) defines a format to organize and describe code. It also provides an 
+[MLflow Project](https://www.MLflow.org/docs/latest/projects.html) defines a format to organize and describe code. It also provides an 
 API and command-line tools for running these projects.  
 
 Each MLflow Project has a *MLproject* YAML file that specifies the following properties:
@@ -127,13 +128,13 @@ For an example check out the MLflow Project in `sample_project`. It defines two 
 Run the `main` endpoint:
 
     touch /tmp/train_dataset.tgz
-    mlflow run sample_project -P data_path=/tmp/train_dataset.tgz
+    MLflow run sample_project -P data_path=/tmp/train_dataset.tgz
 
 Run the `validate` endpoint:
 
     touch /tmp/test_dataset.tgz
-    mlflow run sample_project -e validate -P data_path=/tmp/train_dataset.tgz
+    MLflow run sample_project -e validate -P data_path=/tmp/train_dataset.tgz
 
 At first glance, this might look like an overcomplicated way to run a script. But it is quite useful because you have a single command to execute scripts 
-without having to worry about setting up environments and library dependencies.  The `mlflow run` command can reference projects that are hosted on Github. 
+without having to worry about setting up environments and library dependencies.  The `MLflow run` command can reference projects that are hosted on Github. 
 This can be combined with a scheduler like Airflow to create recurring workflows.
