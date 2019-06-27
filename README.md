@@ -9,7 +9,7 @@ It has currently three components:
 * MLflow Models: A packaging format for models that integrates with different deployment tools
 * MLflow Projects: A packaging format for reproducible execution of code
 
-All examples in this repo work with TensorFlow but MLflow supports all major ML frameworks.
+All examples in this repo work with TensorFlow, but MLflow supports all major ML frameworks.
 
 ## Setup
 
@@ -41,7 +41,7 @@ Train a set of models with different parameters:
 	python train_estimator.py --learning-rate 0.001 --tracking-url http://127.0.0.1:5000
 	python train_estimator.py --learning-rate 0.0001 --tracking-url http://127.0.0.1:5000
 
-An experiment sends parameters, metrics and training results to the tracking service. The last checkpoint is exported as a MLflow Model and pushed 
+An experiment sends parameters, metrics and training results to the tracking service. The last checkpoint is exported as an MLflow Model and pushed 
 to the tracking service.
 
 Open a browser at `http://127.0.0.1:5000` and select `MNIST_TF_Estimator` to see the results of the three runs:
@@ -65,9 +65,9 @@ In folder `exported_model` is also the MLflow Model that has been created by `tr
 
 [MLflow Model](https://www.MLflow.org/docs/latest/models.html) is a standardized packaging format for machine learning models.
 
-Each MLflow Model is a directory containing arbitrary files, together with an `MLmodel file` in the root of the directory that stores meta-data.
+Each MLflow Model is a directory containing arbitrary files, together with an *MLmodel* file in the root of the directory that stores meta-data.
 
-A MLflow Model can define multiple [flavors](https://www.mlflow.org/docs/latest/models.html#built-in-model-flavors) that the model can be used with. 
+An MLflow Model can define multiple [flavors](https://www.mlflow.org/docs/latest/models.html#built-in-model-flavors) that the model can be used with. 
 A flavour acts as an adapter between the model and a specific framework or tool.
 
 MLflow has built-in flavors are:
@@ -79,7 +79,7 @@ MLflow has built-in flavors are:
  * ONNX
  * etc.
 
-The script `inference_MLflow_model.py` shows an example how to use a MLflow model in TensorFlow.
+The script `inference_MLflow_model.py` shows an example how to use an MLflow model in TensorFlow.
 
 First we need to download the MLflow model from the Tracking Service:
 
@@ -123,7 +123,7 @@ Each MLflow Project has a *MLproject* YAML file that specifies the following pro
 * Entry points: Commands that can be run within the project and specifications about there parameters.
 * Environment: The software environment that should be used to execute project entry points. This includes all library dependencies.
 
-A MLflow Project can be located on the local filesystem or on Github. The environment can be defined as a [Conda environment](https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html) 
+An MLflow Project can be located on the local filesystem or on Github. The environment can be defined as a [Conda environment](https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html) 
 or a [Docker container](https://www.docker.com/).
 
 For an example check out the MLflow Project in `sample_project`. It defines two endpoints `main` and `validate` and uses a Conda environment.
@@ -138,7 +138,7 @@ Run the `validate` endpoint:
     touch /tmp/test_dataset.tgz
     mlflow run sample_project -e validate -P data_path=/tmp/train_dataset.tgz
 
-At first glance, this might look like an overcomplicated way to run a script but can actually been quite useful. By packaging some code in an 
+At first glance, this might look like an overcomplicated way to run a script but can actually be quite useful. By packaging some code in an 
 MLflow Project other people can run it using a single command without having to worry about setting up environments or library dependencies.  
 
 The `MLflow run` command can reference projects that are hosted on Github. This can be combined with a scheduler like [Apache Airflow](https://airflow.apache.org/) 
