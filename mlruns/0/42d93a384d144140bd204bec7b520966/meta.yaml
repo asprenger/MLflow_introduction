@@ -1,0 +1,15 @@
+artifact_uri: file:///Users/asprenger/work/MLflow_introduction/mlruns/0/42d93a384d144140bd204bec7b520966/artifacts
+end_time: 1561556749213
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+name: ''
+run_id: 42d93a384d144140bd204bec7b520966
+run_uuid: 42d93a384d144140bd204bec7b520966
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1561556712134
+status: 3
+tags: []
+user_id: asprenger

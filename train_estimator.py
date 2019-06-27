@@ -145,13 +145,11 @@ def main(learning_rate, batch_size, checkpoint_base_path, data_path, tracking_ur
 
         tf.logging.info('SavedModel has been exported to %s' % saved_estimator_path)
 
-        # Log the SavedModel in MLFlow
+        # Log the SavedModel as MLFlow model
         mlflow.tensorflow.log_model(tf_saved_model_dir=saved_estimator_path,
                                     tf_meta_graph_tags=[tag_constants.SERVING],
                                     tf_signature_def_key="serving_default",
-                                    artifact_path="model")
-
-        print(mlflow.get_artifact_uri('model'))
+                                    artifact_path="exported_model")
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
