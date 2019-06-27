@@ -65,23 +65,25 @@ In folder `exported_model` is also the MLflow Model that has been created by `tr
 
 [MLflow Model](https://www.MLflow.org/docs/latest/models.html) is a standardized packaging format for machine learning models.
 
-Each MLflow Model is a directory containing arbitrary files, together with an MLmodel file in the root of the directory that stores meta-data.
+Each MLflow Model is a directory containing arbitrary files, together with an `MLmodel file` in the root of the directory that stores meta-data.
 
-A MLflow Model can define multiple *flavors* that the model can be used with. A flavour acts as an adapter between the model and a specific framework or tool.
-Built-in flavors are:
+A MLflow Model can define multiple [flavors](https://www.mlflow.org/docs/latest/models.html#built-in-model-flavors) that the model can be used with. 
+A flavour acts as an adapter between the model and a specific framework or tool.
 
- * Python function
+MLflow has built-in flavors are:
+
+ * Spark
+ * PyTorch
  * Keras
  * TensorFlow
  * ONNX
- * Spark
- * PyTorch
+ * etc.
 
 The script `inference_MLflow_model.py` shows an example how to use a MLflow model in TensorFlow.
 
 First we need to download the MLflow model from the Tracking Service:
 
-    MLflow_TRACKING_URI=http://127.0.0.1:5000 MLflow artifacts download --run-id 2eddaed00e264f73b5bd94b057054d7c --artifact-path exported_model
+    MLflow_TRACKING_URI=http://127.0.0.1:5000 mlflow artifacts download --run-id 2eddaed00e264f73b5bd94b057054d7c --artifact-path exported_model
 
 The `MLflow artifacts download ` command copies the model to a local directory and returns the path, e.g.:
 
@@ -105,7 +107,7 @@ This works because the MLflow model is just the SavedModel with some meta-data.
 
 We use the same `MLflow artifacts download` command again but this time specify artifact path `exported_model/tfmodel`:
 
-    MLflow_TRACKING_URI=http://127.0.0.1:5000 MLflow artifacts download --run-id 2eddaed00e264f73b5bd94b057054d7c --artifact-path exported_model/tfmodel
+    MLflow_TRACKING_URI=http://127.0.0.1:5000 mlflow artifacts download --run-id 2eddaed00e264f73b5bd94b057054d7c --artifact-path exported_model/tfmodel
 
 This downloads the SavedModel to a local directory.
 
@@ -135,7 +137,7 @@ Run the `main` endpoint:
 Run the `validate` endpoint:
 
     touch /tmp/test_dataset.tgz
-    MLflow run sample_project -e validate -P data_path=/tmp/train_dataset.tgz
+    mlflow run sample_project -e validate -P data_path=/tmp/train_dataset.tgz
 
 At first glance, this might look like an overcomplicated way to run a script. But it is quite useful because you have a single command to execute scripts 
 without having to worry about setting up environments and library dependencies.  The `MLflow run` command can reference projects that are hosted on Github. 
