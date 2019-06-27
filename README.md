@@ -1,15 +1,16 @@
 # README
 
-This a short demonstration of features provided by [MLflow](https://MLflow.org/). MLflow is an open source library to 
-manage machine learning lifecycles. 
+This is a demonstration of the main features provided by [MLflow](https://MLflow.org/). 
+
+MLflow is an open source library to manage machine learning lifecycles. 
 
 It has currently three components:
 
 * MLflow Tracking: Tracks different aspects of ML experiments like code, data, configuration, and results
-* MLflow Models: A packaging format for models that integrates with different deployment tools
+* MLflow Models: A packaging format for models that integrates with various deployment tools
 * MLflow Projects: A packaging format for reproducible execution of code
 
-All examples in this repo work with TensorFlow, but MLflow supports all major ML frameworks.
+All examples in this repo work with TensorFlow, but MLflow supports many other ML frameworks.
 
 ## Setup
 
