@@ -1,6 +1,7 @@
 # README
 
-[MLflow](https://MLflow.org/) is an open source library to manage machine learning lifecycles. 
+This a short demonstration of features provided by [MLflow](https://MLflow.org/). MLflow is an open source library to 
+manage machine learning lifecycles. 
 
 It has currently three components:
 
@@ -8,6 +9,7 @@ It has currently three components:
 * MLflow Models: A packaging format for models that integrates with different deployment tools
 * MLflow Projects: A packaging format for reproducible execution of code
 
+All examples in this repo work with TensorFlow but MLflow supports all major ML frameworks.
 
 ## Setup
 
@@ -28,10 +30,10 @@ Start the MLflow tracking server:
     MLflow server --backend-store-uri /tmp/mlruns --default-artifact-root /tmp/artifacts
 
 `--backend-store-uri` defines the location where experiment data and metrics are stored. This can be a local filesystem or a SQLAlchemy compatible 
-database like SQLite. `--default-artifact-root` defines the location where artifacts like model files are stored. This can be a local filesystem or 
-a remote filesystem like S3.
+database like SQLite. `--default-artifact-root` defines the location where artifacts like model files are stored. This can be the local filesystem or 
+a remote storage like S3.
 
-By default he tracking server binds to port 5000 on localhost.
+By default the tracking server binds to port 5000 on localhost.
 
 Train a set of models with different parameters:
 
@@ -42,7 +44,7 @@ Train a set of models with different parameters:
 An experiment sends parameters, metrics and training results to the tracking service. The last checkpoint is exported as a MLflow Model and pushed 
 to the tracking service.
 
-Open a browser at `http://127.0.0.1:5000` and select `MNIST_TF_Estimator` to see the 3 runs of the experiment:
+Open a browser at `http://127.0.0.1:5000` and select `MNIST_TF_Estimator` to see the results of the three runs:
 
 ![Tracker1](images/tracker1.png?raw=true "Tracker1")
 
