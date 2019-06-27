@@ -85,7 +85,7 @@ First we need to download the MLflow model from the Tracking Service:
 
     MLflow_TRACKING_URI=http://127.0.0.1:5000 mlflow artifacts download --run-id 2eddaed00e264f73b5bd94b057054d7c --artifact-path exported_model
 
-The `MLflow artifacts download ` command copies the model to a local directory and returns the path, e.g.:
+The `mlflow artifacts download ` command copies the model to a local directory and returns the path, e.g.:
 
     /tmp/artifacts/1/c69616b474964e7fa9f6f6919965d7e5/artifacts/exported_model
 
@@ -105,7 +105,7 @@ MLflow Model does not support Tensorflow Serving currently.
 As a workaround, we can download the SavedModel from the Tracking Service and deploy it into Tensorflow Serving. 
 This works because the MLflow model is just the SavedModel with some meta-data.
 
-We use the same `MLflow artifacts download` command again but this time specify artifact path `exported_model/tfmodel`:
+We use the same `mlflow artifacts download` command again but this time specify artifact path `exported_model/tfmodel`:
 
     MLflow_TRACKING_URI=http://127.0.0.1:5000 mlflow artifacts download --run-id 2eddaed00e264f73b5bd94b057054d7c --artifact-path exported_model/tfmodel
 
@@ -132,7 +132,7 @@ For an example check out the MLflow Project in `sample_project`. It defines two 
 Run the `main` endpoint:
 
     touch /tmp/train_dataset.tgz
-    MLflow run sample_project -P data_path=/tmp/train_dataset.tgz
+    mlflow run sample_project -P data_path=/tmp/train_dataset.tgz
 
 Run the `validate` endpoint:
 
