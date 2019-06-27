@@ -1,12 +1,27 @@
-# MLflow_introduction
+# README
+
+[MLflow](https://mlflow.org/) is an open source library to manage machine learning lifecycles. 
+
+It offers three components:
+
+* MLflow Tracking: Track all aspects of ML experiments like code, data, configuration, and results
+* MLflow Models: Packaging format for models for integration with different deployment tools
+* MLflow Projects: Packaging format for reproducible execution of code
+
 
 ## Setup
 
-Install MLFlow:
+MLFlow is a Python library and can be installed with `pip`.
 
-    pip install mlflow
+To install the dependencies for this repository:
+
+    pip install -r requirements.txt
+
 
 ## MLFlow Tracking
+
+[MLflow Tracking](https://www.mlflow.org/docs/latest/tracking.html) is an API for logging parameters, code versions, metrics, and output files when running
+ML experiments. It provides a UI for visualizing the results. 
 
 Start the MLflow tracking server:
 
@@ -23,32 +38,31 @@ Train a set of models with different parameters:
 	python train_estimator.py --learning-rate 0.001 --tracking-url http://127.0.0.1:5000
 	python train_estimator.py --learning-rate 0.0001 --tracking-url http://127.0.0.1:5000
 
-Each experiment send metrics and training results to the tracking service. Each experiment exports the last checkpoint as TensorFlow SavedModel that gets 
-converted to a MLFlow Model and pushed to the tracking service.
+An experiment sends parameters, metrics and training results to the tracking service. The last checkpoint is exported as a MLFlow Model and pushed 
+to the tracking service.
 
 Open a browser at `http://127.0.0.1:5000` and select `MNIST_TF_Estimator` to see the 3 runs of the experiment:
 
 ![Tracker1](images/tracker1.png?raw=true "Tracker1")
 
-Clicking one of the runs shows the artifacts that have been stored:
+Click one of the runs to show the artifacts that have been recorded:
 
 ![Tracker2](images/tracker1.png?raw=true "Tracker2")
 
-There are the standard files created by the TensorFlow Estimator:
+There are the usual files created by the TensorFlow Estimator:
 
  * Checkpoints
  * GraphDef definition
  * Event files for training and evaluation
 
-There is also the MLFLow Model `exported_model` that has been created by `train_estimator.py`.
+In folder `exported_model` is also the MLFLow Model that has been created by `train_estimator.py`.
 
 
 ## MLFlow Model
 
-A MLflow Model is a standardized packaging format for machine learning models.
+[MLflow Model](https://www.mlflow.org/docs/latest/models.html) is a standardized packaging format for machine learning models.
 
 Each MLflow Model is a directory containing arbitrary files, together with an MLmodel file in the root of the directory that stores meta-data.
-
 
 A MLFlow Model can define multiple *flavors* that the model can be used with. A flavour acts as an adapter between the model and a specific framework or tool.
 Built-in flavors are:
@@ -66,7 +80,7 @@ First we need to download the MLflow model from the Tracking Service:
 
     MLFLOW_TRACKING_URI=http://127.0.0.1:5000 mlflow artifacts download --run-id 2eddaed00e264f73b5bd94b057054d7c --artifact-path exported_model
 
-The command copies the model to a local directory and returns the path, e.g.:
+The `mlflow artifacts download ` command copies the model to a local directory and returns the path, e.g.:
 
     /tmp/artifacts/1/c69616b474964e7fa9f6f6919965d7e5/artifacts/exported_model
 
@@ -79,8 +93,12 @@ Now we can use the model to make predictions:
 
 ## Using Tensorflow Serving
 
-The default way to deploy a TenssorFlow model is to use TensorFlow Serving. We can actually download the SavedModel from the Tracking Service
-and deploy it into Tensorflow Serving. This works because the MLFlow model is just the SavedModel with some meta-data.
+A popular option to deploy TensorFlow models is to use [TensorFlow Serving](https://www.tensorflow.org/tfx/guide/serving). 
+
+MLflow Model does not support Tensorflow Serving currently.
+
+As a workaround, we can download the SavedModel from the Tracking Service and deploy it into Tensorflow Serving. 
+This works because the MLFlow model is just the SavedModel with some meta-data.
 
 We use the same `mlflow artifacts download` command again but this time specify artifact path `exported_model/tfmodel`:
 
@@ -88,12 +106,14 @@ We use the same `mlflow artifacts download` command again but this time specify 
 
 This downloads the SavedModel to a local directory.
 
-Check out the [Tensorflow Serving](https://www.tensorflow.org/tfx/guide/serving) documentation how to deploy the model with TensorFlow Serving.
+Check out the [Tensorflow Serving](https://www.tensorflow.org/tfx/guide/serving) documentation how to deploy the SavedModel with TensorFlow Serving.
 
 
 ## MLFlow Project
 
-A MLflow Project defines a format to organize and describe code. It also provides an API and command-line tools for running these projects. 
+[MLflow Project](https://www.mlflow.org/docs/latest/projects.html) defines a format to organize and describe code. It also provides an 
+API and command-line tools for running these projects.  
+
 Each MLflow Project has a *MLproject* YAML file that specifies the following properties:
 
 * Name
