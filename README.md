@@ -119,11 +119,12 @@ API and command-line tools for running these projects.
 
 Each MLflow Project has a *MLproject* YAML file that specifies the following properties:
 
-* Name
-* Entry points: Commands that can be run within the project, and information about their parameters. 
+* Project name
+* Entry points: Commands that can be run within the project and specifications about there parameters.
 * Environment: The software environment that should be used to execute project entry points. This includes all library dependencies.
 
-A MLflow Project can be located on the local filesystem or on Github. The environment can be defined as a Conda environment or a Docker container.
+A MLflow Project can be located on the local filesystem or on Github. The environment can be defined as a [Conda environment](https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html) 
+or a [Docker container](https://www.docker.com/).
 
 For an example check out the MLflow Project in `sample_project`. It defines two endpoints `main` and `validate` and uses a Conda environment.
 
@@ -137,6 +138,8 @@ Run the `validate` endpoint:
     touch /tmp/test_dataset.tgz
     mlflow run sample_project -e validate -P data_path=/tmp/train_dataset.tgz
 
-At first glance, this might look like an overcomplicated way to run a script. But it is quite useful because you have a single command to execute scripts 
-without having to worry about setting up environments and library dependencies.  The `MLflow run` command can reference projects that are hosted on Github. 
-This can be combined with a scheduler like Airflow to create recurring workflows.
+At first glance, this might look like an overcomplicated way to run a script but can actually been quite useful. By packaging some code in an 
+MLflow Project other people can run it using a single command without having to worry about setting up environments or library dependencies.  
+
+The `MLflow run` command can reference projects that are hosted on Github. This can be combined with a scheduler like [Apache Airflow](https://airflow.apache.org/) 
+to create recurring workflows.
