@@ -85,13 +85,13 @@ First we need to download the MLflow model from the Tracking Service:
 
     MLflow_TRACKING_URI=http://127.0.0.1:5000 mlflow artifacts download --run-id 2eddaed00e264f73b5bd94b057054d7c --artifact-path exported_model
 
+Note that the `run-id` value is a unique ID and must replaced by the actual value from the Tracking Server UI.
+
 The `mlflow artifacts download ` command copies the model to a local directory and returns the path, e.g.:
 
     /tmp/artifacts/1/c69616b474964e7fa9f6f6919965d7e5/artifacts/exported_model
 
-The `run-id` is a unique ID and must be looked up in the Tracking Server UI.
-
-Now we can use the model to make predictions:
+Now we can use the model for inference:
 
     python inference_MLflow_model.py file:/tmp/artifacts/1/2eddaed00e264f73b5bd94b057054d7c/artifacts/exported_model
 
@@ -100,18 +100,16 @@ Now we can use the model to make predictions:
 
 A popular option to deploy TensorFlow models is to use [TensorFlow Serving](https://www.tensorflow.org/tfx/guide/serving). 
 
-MLflow Model does not support Tensorflow Serving currently.
+MLflow Model does not support Tensorflow Serving currently. As a workaround, we can download the SavedModel from the Tracking Service and deploy 
+it into Tensorflow Serving. This works because the MLflow model is just the SavedModel with some meta-data.
 
-As a workaround, we can download the SavedModel from the Tracking Service and deploy it into Tensorflow Serving. 
-This works because the MLflow model is just the SavedModel with some meta-data.
-
-We use the same `mlflow artifacts download` command again but this time specify artifact path `exported_model/tfmodel`:
+We use the same `mlflow artifacts download` command again but specify a different artifact path `exported_model/tfmodel`:
 
     MLflow_TRACKING_URI=http://127.0.0.1:5000 mlflow artifacts download --run-id 2eddaed00e264f73b5bd94b057054d7c --artifact-path exported_model/tfmodel
 
 This downloads the SavedModel to a local directory.
 
-Check out the [Tensorflow Serving](https://www.tensorflow.org/tfx/guide/serving) documentation how to deploy the SavedModel with TensorFlow Serving.
+Check out the [Tensorflow Serving documentation](https://www.tensorflow.org/tfx/guide/serving) how to deploy the SavedModel with TensorFlow Serving.
 
 
 ## MLflow Project
